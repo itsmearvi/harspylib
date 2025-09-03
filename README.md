@@ -1,2 +1,165 @@
 # cc_amort_lib
-This Python library provides a comprehensive solution to **plan and analyze credit card payments**
+---
+
+# 💳 Credit Card Amortization Library
+
+This Python library provides a comprehensive solution to **plan and analyze credit card payments**, including amortization schedules, minimum payments, interest calculations, and visualization. It supports **multiple cards**, allows **maximum monthly allocation**, and provides **interactive and downloadable outputs**.
+
+---
+
+## Features
+
+- Load multiple credit cards from a `cards.csv` file containing:
+  - `name` – Card name
+  - `balance` – Current outstanding balance
+  - `apr_percent` – Annual Percentage Rate
+  - `min_override` (optional) – Fixed minimum payment
+  - `min_pct` (optional) – Minimum payment as percentage of balance
+
+- Automatically compute:
+  - Monthly interest based on APR
+  - Minimum due (customizable per card)
+  - Payment allocation across multiple cards (highest APR gets majority of max allowed)
+  - Remaining balances month-by-month
+  - Total interest paid
+  - Tenure to pay off each card
+
+- **CLI, Streamlit, and Gradio GUI versions**:
+  - **CLI**: run from command line with CSV input and export options
+  - **Streamlit**: interactive web interface with per-card CSV, Excel workbook, and chart
+  - **Gradio**: interactive GUI in browser with downloads and visualization
+
+- Outputs include:
+  - Per-card amortization schedules (CSV)
+  - Monthly allocation summary (CSV)
+  - Excel workbook with all schedules
+  - Summary table including opening balance, total interest, tenure, start and end payment
+  - Interactive balance chart (Streamlit/Gradio)
+
+---
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone <your_repo_url>
+cd <repo_directory>
+````
+
+2. Install required dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Or manually install:
+
+```bash
+pip install pandas streamlit gradio plotly openpyxl
+```
+
+> The `requirements.txt` should include:
+
+```
+pandas
+streamlit
+gradio
+plotly
+openpyxl
+```
+
+---
+
+## CSV Format Example
+
+```csv
+name,balance,apr_percent,min_override,min_pct
+Visa,1000,18.24,50,2
+MasterCard,5000,15,,1.5
+Amex,2000,20,,
+```
+
+* `min_override` is optional; if not provided, `min_pct` is used.
+* `min_pct` is optional; if not provided, default 2% of balance is used.
+* At least `name`, `balance`, and `apr_percent` are required.
+
+---
+
+## Usage
+
+### 1. CLI
+
+```bash
+python amort_cli.py --cards path/to/cards.csv --max 500 --outdir output_folder
+```
+
+* `--cards` – path to `cards.csv`
+* `--max` – maximum allowed monthly payment
+* `--outdir` – directory for output CSV/Excel files
+
+Outputs:
+
+* Per-card CSV files (`<card_name>_schedule.csv`)
+* Monthly allocation CSV (`monthly_allocation.csv`)
+* Excel workbook (`schedules.xlsx`)
+* Summary CSV (`summary.csv`)
+
+---
+
+### 2. Streamlit GUI
+
+```bash
+streamlit run amort_streamlit.py
+```
+
+* Upload `cards.csv` in the browser
+* Set **Max Allowed Monthly Payment**
+* Click **Compute Schedules**
+* Download per-card CSVs, Excel workbook, monthly summary, and summary CSV
+* View interactive balance chart
+
+> Computation occurs only when the file or max allowed payment changes or when the **Compute Schedules** button is clicked.
+
+---
+
+### 3. Gradio GUI
+
+```bash
+python amort_gradio.py
+```
+
+* Upload `cards.csv`
+* Set **Max Allowed Monthly Payment**
+* Click **Compute**
+* Download outputs (per-card CSVs, Excel workbook, monthly summary, summary CSV)
+* View interactive Plotly balance chart
+
+> Computation is triggered **only on Compute button click**.
+
+---
+
+## Developer Notes
+
+* The core logic is implemented in `amort_allocator.py` using the `SimpleCard` dataclass.
+* `plan_multi_card_with_max()` handles payment allocation:
+
+  * Highest APR card gets the **majority of max allowed payment**
+  * Other cards receive their **min due + interest**
+* `generate_summary()` produces per-card summaries with:
+
+  * Opening balance
+  * Total interest
+  * Tenure
+  * Start/end payment
+
+---
+
+## License
+
+MIT License © 2025
+
+---
+
+## Contact
+
+For questions, feedback, or feature requests, reach out at **[itsmearvihar@gmail.com](mailto: )**
