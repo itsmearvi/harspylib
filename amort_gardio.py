@@ -48,7 +48,8 @@ def compute_from_csv(file_path, max_allowed):
     # Temporary directory for outputs
     tmpdir = tempfile.mkdtemp()
     monthly_csv = os.path.join(tmpdir, "monthly_allocation.csv")
-    excel_path = os.path.join(tmpdir, "schedules.xlsx")
+    excel_prefix = file_path.split(".csv")[0]
+    excel_path = os.path.join(tmpdir, excel_prefix + "-schedules.xlsx")
     monthly.to_csv(monthly_csv, index=False)
 
     # Excel workbook with per-card sheets
@@ -93,7 +94,7 @@ with gr.Blocks() as demo:
     gr.Markdown("## 💳 Credit Card Amortization Tool (Interactive)")
 
     file_in = gr.File(label="Upload cards.csv", type="filepath")
-    max_allowed = gr.Number(label="Max Allowed Monthly Payment", value=500)
+    max_allowed = gr.Number(label="Max Allowed Monthly Payment", value=1000)
     compute_btn = gr.Button("Compute")
 
     # Outputs
