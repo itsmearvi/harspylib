@@ -4,7 +4,7 @@
 # 📂 `README.md`
 
 
-# 💳 Credit Card Amortization Tool
+# 💳 Payment Amortization Tool (Credit Card or Personal Loans)
 
 A Python-based utility to plan and simulate **multi-card debt repayment** strategies with fixed maximum monthly payments, minimum due rules, and avalanche payoff logic.
 
@@ -23,7 +23,7 @@ A Python-based utility to plan and simulate **multi-card debt repayment** strate
 - **Minima handling**  
   - If `Min_Override` is given → it takes precedence as the exact minimum.  
   - If only `Min_Pct` is provided → minimum is computed as `% of balance`.  
-  - If both are missing → minimum due is treated as `0`.  
+  - If both are missing → minimum due is treated as `2% of balance + interest on balance amount before payment`.  
 
 - **Budget guarantee**  
   - If your `Max Allowed Payment` is **less than the sum of all minima**, the system automatically raises the total monthly payment to at least that sum.  
