@@ -1,4 +1,4 @@
-name,balance,apr_percent,min_override,min_pct
+Card,Balance,APR,Min_Pct,Min_Override
 Visa,1000,18.24,50,2.0
 MasterCard,5000,15,,1.5
 Amex,2000,20,,
