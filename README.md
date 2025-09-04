@@ -59,7 +59,7 @@ A Python-based utility to plan and simulate **multi-card debt repayment** strate
 
 The flowchart below illustrates how the tool processes inputs, allocates payments, and generates outputs:
 
-![Workflow Diagram](workflow.png)
+![Workflow Diagram](Workflow.png)
 
 
 ---
