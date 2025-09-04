@@ -1,8 +1,6 @@
 
 ---
 
-# 📂 `README.md`
-
 
 # 💳 Payment Amortization Tool (Credit Card or Personal Loans)
 
