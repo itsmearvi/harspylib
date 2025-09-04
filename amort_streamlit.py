@@ -11,7 +11,7 @@ for key in ["cards_file", "max_allowed", "schedules", "monthly_summary", "summar
 st.title("💳 Credit Card Amortization Tool")
 
 uploaded_file = st.file_uploader("Upload cards.csv", type="csv")
-max_allowed = st.number_input("Max Allowed Monthly Payment", min_value=50.0, value=500.0, step=50.0)
+max_allowed = st.number_input("Max Allowed Monthly Payment", min_value=50.0, value=1000.0, step=50.0)
 
 # Determine whether recomputation is needed
 recompute = False
@@ -66,13 +66,15 @@ if st.session_state.schedules is not None:
     tmpdir = tempfile.mkdtemp()
 
     # Excel workbook
-    excel_path = os.path.join(tmpdir, "schedules.xlsx")
+    
+    excel_prefix = st.session_state.cards_file.name.split(".csv")[0]
+    excel_path = os.path.join(tmpdir, excel_prefix + "-schedules.xlsx")
     with pd.ExcelWriter(excel_path) as writer:
         st.session_state.monthly_summary.to_excel(writer, sheet_name="Summary", index=False)
         for name, df in st.session_state.schedules.items():
             df.to_excel(writer, sheet_name=name, index=False)
     with open(excel_path, "rb") as f:
-        st.download_button("⬇ Download Excel Workbook", f, file_name="schedules.xlsx")
+        st.download_button("⬇ Download Excel Workbook", f, file_name=excel_prefix + "-schedules.xlsx")
 
     # Monthly CSV
     monthly_csv = os.path.join(tmpdir, "monthly_allocation.csv")
