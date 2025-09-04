@@ -15,7 +15,7 @@ def main():
         return
 
     os.makedirs(args.outdir, exist_ok=True)
-
+    excel_prefix = args.cards.split(".csv")[0]
     cards = load_cards_from_csv(args.cards)
     if not cards:
         print("No valid cards found in CSV.")
@@ -33,7 +33,7 @@ def main():
     monthly_summary.to_csv(monthly_csv_path, index=False)
 
     # Save Excel workbook
-    excel_path = os.path.join(args.outdir, "schedules.xlsx")
+    excel_path = os.path.join(args.outdir, excel_prefix + "-schedules.xlsx")
     with pd.ExcelWriter(excel_path) as writer:
         monthly_summary.to_excel(writer, sheet_name="Summary", index=False)
         for name, df in schedules.items():
