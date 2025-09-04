@@ -1,162 +1,148 @@
-# cc_amort_lib
----
-
-# 💳 Credit Card Amortization Library
-
-This Python library provides a comprehensive solution to **plan and analyze credit card payments**, including amortization schedules, minimum payments, interest calculations, and visualization. It supports **multiple cards**, allows **maximum monthly allocation**, and provides **interactive and downloadable outputs**.
 
 ---
 
-## Features
+# 📂 `README.md`
 
-- Load multiple credit cards from a `cards.csv` file containing:
-  - `name` – Card name
-  - `balance` – Current outstanding balance
-  - `apr_percent` – Annual Percentage Rate
-  - `min_override` (optional) – Fixed minimum payment
-  - `min_pct` (optional) – Minimum payment as percentage of balance
 
-- Automatically compute:
-  - Monthly interest based on APR
-  - Minimum due (customizable per card)
-  - Payment allocation across multiple cards (highest APR gets majority of max allowed)
-  - Remaining balances month-by-month
-  - Total interest paid
-  - Tenure to pay off each card
+# 💳 Credit Card Amortization Tool
 
-- **CLI, Streamlit, and Gradio GUI versions**:
-  - **CLI**: run from command line with CSV input and export options
-  - **Streamlit**: interactive web interface with per-card CSV, Excel workbook, and chart
-  - **Gradio**: interactive GUI in browser with downloads and visualization
-
-- Outputs include:
-  - Per-card amortization schedules (CSV)
-  - Monthly allocation summary (CSV)
-  - Excel workbook with all schedules
-  - Summary table including opening balance, total interest, tenure, start and end payment
-  - Interactive balance chart (Streamlit/Gradio)
+A Python-based utility to plan and simulate **multi-card debt repayment** strategies with fixed maximum monthly payments, minimum due rules, and avalanche payoff logic.
 
 ---
 
-## Installation
+## 🚀 Features
 
-1. Clone the repository:
-```bash
-git clone <your_repo_url>
-cd <repo_directory>
-````
+- **CSV-based input**  
+  Upload a `cards.csv` with the following columns:
+  - `Card` → Name/identifier
+  - `Balance` → Starting balance
+  - `APR` → Annual interest rate (decimal, e.g. 0.24 for 24%)
+  - `Min_Pct` → (optional) Minimum payment as a % of balance  
+  - `Min_Override` → (optional) Fixed minimum payment amount  
 
-2. Install required dependencies:
+- **Minima handling**  
+  - If `Min_Override` is given → it takes precedence as the exact minimum.  
+  - If only `Min_Pct` is provided → minimum is computed as `% of balance`.  
+  - If both are missing → minimum due is treated as `0`.  
 
-```bash
-pip install -r requirements.txt
-```
+- **Budget guarantee**  
+  - If your `Max Allowed Payment` is **less than the sum of all minima**, the system automatically raises the total monthly payment to at least that sum.  
+  - This prevents **underpaying** minimum dues across cards.  
 
-Or manually install:
+- **Avalanche payoff**  
+  - Extra funds beyond the minima are always applied to the **highest-APR card** with a balance.  
+  - Once that card is cleared, the next-highest APR card takes over the extra.  
 
-```bash
-pip install pandas streamlit gradio plotly openpyxl
-```
+- **Interest accrual**  
+  - Interest compounds **monthly** at `APR / 12`.  
+  - Payments are applied after interest accrual each cycle.  
 
-> The `requirements.txt` should include:
+- **Multiple interfaces**  
+  - **CLI** → Run in terminal.  
+  - **Streamlit App** → Simple dashboard with tables, charts, and downloads.  
+  - **Gradio App** → Interactive web UI with Plotly charts and file downloads.  
+
+---
+
+## 📊 Outputs
+
+- **Per-card schedules** (month-by-month: interest, payment, remaining balance).  
+- **Monthly summary** (how much was paid to each card and total per cycle).  
+- **Overall summary** (per card: months until payoff, total paid, total interest).  
+- **Downloads**:
+  - Excel workbook (all schedules in separate sheets).  
+  - CSV exports (monthly allocation, summary, per-card schedules).  
+
+---
+
+## 🖼️ Architecture / Workflow
+
+The flowchart below illustrates how the tool processes inputs, allocates payments, and generates outputs:
+
+![Workflow Diagram](workflow.png)
+
+
+---
+
+## 📦 Installation
+
+1. Clone this repo or copy the files.
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+
+
+### Example `requirements.txt`
 
 ```
 pandas
 streamlit
 gradio
 plotly
-openpyxl
 ```
 
 ---
 
-## CSV Format Example
+## ⚡ Usage
 
-```csv
-name,balance,apr_percent,min_override,min_pct
-Visa,1000,18.24,50,2
-MasterCard,5000,15,,1.5
-Amex,2000,20,,
-```
-
-* `min_override` is optional; if not provided, `min_pct` is used.
-* `min_pct` is optional; if not provided, default 2% of balance is used.
-* At least `name`, `balance`, and `apr_percent` are required.
-
----
-
-## Usage
-
-### 1. CLI
+### CLI
 
 ```bash
-python amort_cli.py --cards path/to/cards.csv --max 500 --outdir output_folder
+python v5/amort_cli.py cards.csv --max 1000
 ```
 
-* `--cards` – path to `cards.csv`
-* `--max` – maximum allowed monthly payment
-* `--outdir` – directory for output CSV/Excel files
-
-Outputs:
-
-* Per-card CSV files (`<card_name>_schedule.csv`)
-* Monthly allocation CSV (`monthly_allocation.csv`)
-* Excel workbook (`schedules.xlsx`)
-* Summary CSV (`summary.csv`)
-
----
-
-### 2. Streamlit GUI
+### Streamlit
 
 ```bash
-streamlit run amort_streamlit.py
+streamlit run v5/amort_streamlit.py
 ```
 
-* Upload `cards.csv` in the browser
-* Set **Max Allowed Monthly Payment**
-* Click **Compute Schedules**
-* Download per-card CSVs, Excel workbook, monthly summary, and summary CSV
-* View interactive balance chart
-
-> Computation occurs only when the file or max allowed payment changes or when the **Compute Schedules** button is clicked.
-
----
-
-### 3. Gradio GUI
+### Gradio
 
 ```bash
-python amort_gradio.py
+python v5/amort_gradio.py
 ```
 
-* Upload `cards.csv`
-* Set **Max Allowed Monthly Payment**
-* Click **Compute**
-* Download outputs (per-card CSVs, Excel workbook, monthly summary, summary CSV)
-* View interactive Plotly balance chart
+---
 
-> Computation is triggered **only on Compute button click**.
+## ✅ Example Behavior
+
+Suppose you have:
+
+* **Card A** → Balance 10,000 @ 24% APR, `Min_Override = 1549`
+* **Card B** → Balance 5,000 @ 18% APR, `Min_Override = 1594`
+* **Card C** → Balance 2,500 @ 12% APR, `Min_Override = 1638`
+
+If user input `Max Allowed = 1000`:
+
+* System detects sum of overrides = `4771`.
+* Budget is raised to **4771**, not 1000.
+* Each card gets its override (1549, 1594, 1638).
+* Extra budget (if any above overrides) goes toward the highest-APR card.
 
 ---
 
-## Developer Notes
+## 🛡️ Safeguards
 
-* The core logic is implemented in `amort_allocator.py` using the `SimpleCard` dataclass.
-* `plan_multi_card_with_max()` handles payment allocation:
-
-  * Highest APR card gets the **majority of max allowed payment**
-  * Other cards receive their **min due + interest**
-* `generate_summary()` produces per-card summaries with:
-
-  * Opening balance
-  * Total interest
-  * Tenure
-  * Start/end payment
+* Maximum simulation length: **600 months** (50 years).
+* Payments never exceed balance.
+* Empty/malformed CSV rows are skipped safely.
 
 ---
 
-## License
+## ⚠️ Disclaimer
 
-MIT License © 2025
+The **Amortization Schedule Tool** is provided for **informational and educational purposes only**. While we strive to ensure the accuracy of the calculations, the results generated by this tool are **estimates** and may not reflect actual loan terms, interest rates, fees, or other financial conditions.
+
+Users should **not rely solely** on this tool for making financial, investment, or legal decisions. It is strongly recommended that you **consult with a qualified financial advisor, lender, or other professional** before taking any action based on the information provided by this tool.
+
+We do not accept any liability for losses or damages resulting from the use of this tool. **By using this tool, you agree to use it at your own risk.**
+
+---
+
+## 📄 License
+
+MIT — Free for personal and commercial use.
 
 ---
 
@@ -164,12 +150,3 @@ MIT License © 2025
 
 For questions, feedback, or feature requests, reach out at **[itsmearvihar@gmail.com](mailto:itsmearvihar@gmail.com)**
 
----
-
-## Disclaimer
-
-The Amortization Schedule Tool is provided for informational and educational purposes only. While we strive to ensure the accuracy of the calculations, the results generated by this tool are estimates and may not reflect actual loan terms, interest rates, fees, or other financial conditions.
-
-Users should not rely solely on this tool for making financial, investment, or legal decisions. It is strongly recommended that you consult with a qualified financial advisor, lender, or other professional before taking any action based on the information provided by this tool.
-
-We do not accept any liability for losses or damages resulting from the use of this tool. By using this tool, you agree to use it at your own risk.
