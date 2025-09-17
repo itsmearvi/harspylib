@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "harspylib"
+version = "0.1.0"
+description = "A Python utilities library with amortization, HTML scraping, and XPath scraping tools"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name="Arvind Hariharan", email="your-email@example.com" }
+]
+requires-python = ">=3.8"
+
+dependencies = [
+    "requests",
+    "lxml",
+    "selenium",
+    "beautifulsoup4",
+    "pandas",
+    "streamlit",
+    "gradio"
+]
+
+[project.urls]
+Homepage = "https://github.com/itsmearvi/harspylib"
+Source = "https://github.com/itsmearvi/harspylib"
+Issues = "https://github.com/itsmearvi/harspylib/issues"
+
+[project.scripts]
+xlinkscraper = "harspylib.xlinkscraper.xlinkscraper:main"
+htmlscraper = "harspylib.htmlscraper.htmlscraper:main"
+amort = "harspylib.amort.amort_cli:main"
