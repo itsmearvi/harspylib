@@ -2,7 +2,7 @@ import gradio as gr
 import pandas as pd
 import tempfile, os
 import plotly.express as px
-from amort_allocator import load_cards_from_csv, plan_multi_card_with_max, generate_summary
+from .amort_allocator import load_cards_from_csv, plan_multi_card_with_max, generate_summary
 from typing import Any
 
 # --- Cache previous inputs/outputs ---

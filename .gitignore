@@ -1,1 +1,9 @@
 .DS_Store
+harspylib.egg-info/top_level.txt
+harspylib.egg-info/SOURCES.txt
+harspylib.egg-info/requires.txt
+harspylib.egg-info/PKG-INFO
+harspylib.egg-info/entry_points.txt
+harspylib.egg-info/dependency_links.txt
+dist/harspylib-0.1.0.tar.gz
+dist/harspylib-0.1.0-py3-none-any.whl

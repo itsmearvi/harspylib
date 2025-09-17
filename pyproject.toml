@@ -9,7 +9,7 @@ description = "A Python utilities library with amortization, HTML scraping, and 
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [
-    { name="Arvind Hariharan", email="your-email@example.com" }
+    { name="Arvind Hariharan", email="itsmearvihar@gmail.com" }
 ]
 requires-python = ">=3.8"
 
@@ -20,7 +20,10 @@ dependencies = [
     "beautifulsoup4",
     "pandas",
     "streamlit",
-    "gradio"
+    "gradio",
+    "typing",
+    "dataclasses",
+    "plotly"
 ]
 
 [project.urls]

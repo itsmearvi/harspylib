@@ -1,7 +1,7 @@
 import argparse
 import os
 import pandas as pd
-from amort_allocator import load_cards_from_csv, plan_multi_card_with_max, generate_summary
+from .amort_allocator import load_cards_from_csv, plan_multi_card_with_max, generate_summary
 
 def main():
     parser = argparse.ArgumentParser(description="Credit Card Amortization CLI")
