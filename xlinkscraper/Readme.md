@@ -1,19 +1,10 @@
-# Link Scraping Utilities
-
-This repo contains **two Python utilities** for extracting anchor links (`<a href="...">`) into Markdown reports.
-
-1. **`xlinkscraper.py`**
-
+#  xlinkscraper.py
+  Extract links from **web pages** (static or dynamic) using **XPath**.  
+  Supports recursive expansion of clickable elements (buttons, divs, etc.) via Selenium.
    * Advanced tool
    * Works with URLs (static + dynamic)
    * Handles recursion, `--clickxpath`, `--maxdepth`, headless Selenium, etc.
 
-2. **Simplified Local HTML Scraper** (we’ll call it **`htmlscraper.py`**)
-
-   * Lightweight, static-only
-   * Works on **local HTML files**
-   * Uses `BeautifulSoup` (no Selenium required)
-   * Generates `_full.md` and `_relative.md` from `<a>` tags
 ---
 
 ## Requirements
@@ -29,8 +20,7 @@ This repo contains **two Python utilities** for extracting anchor links (`<a hre
 
 ## 1. xlinkscraper.py
 
-Extract links from **web pages** (static or dynamic) using **XPath**.  
-Supports recursive expansion of clickable elements (buttons, divs, etc.) via Selenium.
+
 
 ### Features
 - Works with static and dynamic pages.

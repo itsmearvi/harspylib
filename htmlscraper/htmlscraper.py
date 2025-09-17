@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-html_link_scraper.py
+htmlscraper.py
 --------------
 Extract anchor links from a local HTML file.
 Generates two Markdown files:
