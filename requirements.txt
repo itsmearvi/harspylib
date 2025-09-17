@@ -1,0 +1,8 @@
+requests
+lxml
+selenium
+beautifulsoup4
+gradio
+streamlit
+pandas
+dataclasses
